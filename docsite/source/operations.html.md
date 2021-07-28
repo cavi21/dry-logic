@@ -48,7 +48,7 @@ false | false | false
 
 ``` ruby
 is_empty = build do
-  (attr?(:empty) > empty?) | nil?
+  (attr?(:empty?) > empty?) | nil?
 end
 
 is_empty.call("").success? # => true
@@ -121,7 +121,7 @@ is_middle_aged.call(Person.new(60)).success? # => false
 
 ### Each (`each`)
 
-> True when any of the inputs is true when applied to the predicate. Similar to `Array#any?`
+> True when all of the inputs are true when applied to the predicate. Similar to `Array#all?`
 
 ``` ruby
 is_only_odd = build do
@@ -152,7 +152,7 @@ is_natrual_and_odd.call(-1).success? # => false
 
 ``` ruby
 is_present = build do
-  negation(empty?)
+  negation { empty? }
 end
 
 is_present.call([1]).success? # => true
@@ -166,7 +166,7 @@ is_present.call("").success? # => false
 ``` ruby
 is_named = build do
   key name: [:user, :name] do
-    str? & negation(empty?)
+    str? & negation { empty? }
   end
 end
 
